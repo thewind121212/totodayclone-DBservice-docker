@@ -1,0 +1,8 @@
+FROM redis
+
+
+WORKDIR /etc/redisdump
+WORKDIR /etc/redis
+
+COPY ./redis/redis.conf .
+COPY ./redis/users.acl .

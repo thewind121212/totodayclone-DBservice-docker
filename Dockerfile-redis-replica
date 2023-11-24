@@ -1,0 +1,11 @@
+FROM redis
+
+
+WORKDIR /etc/redisdump
+WORKDIR /etc/redis-sentinel
+
+WORKDIR /etc/redis
+
+WORKDIR /etc/script
+
+COPY ./redis/replica-sentinel/script.sh .

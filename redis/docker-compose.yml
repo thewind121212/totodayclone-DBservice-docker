@@ -1,0 +1,101 @@
+version: '3.1'
+
+services:
+  redis-primary:
+    container_name: redis-primary
+    user: root
+    build:
+      context: .
+      dockerfile: ./dockerfile-primary
+    ports:
+      - "6380:6379"
+    networks:
+      - redistestnet
+    volumes:
+      - /home/linh/Project-assets/totodayshop/redis/master/conf:/etc/redis:rw
+      - /home/linh/Project-assets/totodayshop/redis/master/dump:/etc/redisdump:rw
+    command: redis-server /etc/redis/redis.conf
+
+  redis-replica1:
+    container_name: redis-replica1
+    user: root
+    build:
+      context: .
+      dockerfile: ./dockerfile-replica
+    ports:
+      - "6381:6379"
+      - "26381:26379"
+    networks:
+      - redistestnet
+    volumes:
+      - /home/linh/Project-assets/totodayshop/redis/repl/repl1/conf:/etc/redis:rw
+      - /home/linh/Project-assets/totodayshop/redis/repl/repl1/dump:/etc/redisdump:rw
+      - /home/linh/Project-assets/totodayshop/redis/sentinel/sen1:/etc/redis-sentinel:rw
+    command: bash -c "/etc/script/script.sh"   
+
+  redis-replica2:
+    container_name: redis-replica2
+    user: root
+    build:
+      context: .
+      dockerfile: ./dockerfile-replica
+    ports:
+      - "6382:6379"
+      - "26382:26379"
+    networks:
+      - redistestnet
+    volumes:
+      - /home/linh/Project-assets/totodayshop/redis/repl/repl2/conf:/etc/redis:rw
+      - /home/linh/Project-assets/totodayshop/redis/repl/repl2/dump:/etc/redisdump:rw
+      - /home/linh/Project-assets/totodayshop/redis/sentinel/sen2:/etc/redis-sentinel:rw
+    command: bash -c "/etc/script/script.sh"   
+
+  redis-replica3:
+    container_name: redis-replica3
+    user: root
+    build:
+      context: .
+      dockerfile: ./dockerfile-replica
+    ports:
+      - "6383:6379"
+      - "26383:26379"
+    networks:
+      - redistestnet
+    volumes:
+      - /home/linh/Project-assets/totodayshop/redis/repl/repl3/conf:/etc/redis:rw
+      - /home/linh/Project-assets/totodayshop/redis/repl/repl3/dump:/etc/redisdump:rw
+      - /home/linh/Project-assets/totodayshop/redis/sentinel/sen3:/etc/redis-sentinel:rw
+    command: bash -c "/etc/script/script.sh"   
+
+  redis-sentinel4:
+    container_name: redis-sentinel4
+    user: root
+    build:
+      context: .
+      dockerfile: ./dockerfile-replica
+    ports:
+      - "26384:26379"
+    networks:
+      - redistestnet
+    volumes:
+      - /home/linh/Project-assets/totodayshop/redis/sentinel/sen4:/etc/redis-sentinel
+    command: redis-server /etc/redis-sentinel/sentinel.conf --sentinel
+
+  redis-sentinel5:
+    container_name: redis-sentinel5
+    user: root
+    build:
+      context: .
+      dockerfile: ./dockerfile-replica
+    ports:
+      - "26385:26379"
+    networks:
+      - redistestnet
+    volumes:
+      - /home/linh/Project-assets/totodayshop/redis/sentinel/sen5:/etc/redis-sentinel
+    command: redis-server /etc/redis-sentinel/sentinel.conf --sentinel
+
+networks:
+  redistestnet:
+    external: true
+    name: redistestnet

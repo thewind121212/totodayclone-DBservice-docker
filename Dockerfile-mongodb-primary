@@ -1,0 +1,18 @@
+FROM mongo
+
+COPY ./config-files/key.keyFile /etc/auth/
+COPY ./backup/mongodb/backup_file/admin /backup/admin
+COPY ./backup/mongodb/backup_file/totodayshopClone /backup/totodayshopClone
+
+
+COPY ./backup/mongodb/script/bait.sh /docker-entrypoint-initdb.d/
+
+COPY ./backup/mongodb/script/script.sh /script/
+
+
+
+RUN chown 999 /etc/auth/key.keyFile
+RUN chmod 400 /etc/auth/key.keyFile
+RUN chown 999 /data/*
+
+

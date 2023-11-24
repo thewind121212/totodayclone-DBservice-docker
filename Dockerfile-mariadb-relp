@@ -1,0 +1,7 @@
+# Use an official Apline Linux base image 
+FROM mariadb:11.1.2 
+
+COPY ./config-files/mariadb-replInit.sql /docker-entrypoint-initdb.d/
+
+
+

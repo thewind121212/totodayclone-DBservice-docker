@@ -1,0 +1,7 @@
+FROM mongo 
+
+COPY ./config-files/key.keyFile /etc/auth/
+
+RUN chown 999 /etc/auth/key.keyFile
+RUN chmod 400 /etc/auth/key.keyFile
+RUN chown 999 /data/*
